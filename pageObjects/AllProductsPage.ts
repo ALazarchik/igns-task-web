@@ -45,7 +45,7 @@ export class AllProductsPage {
             actualSortedValues = await this.allProductsPrices.allTextContents();
             expectedSortedValues = order === 'asc' ?
                 [...actualSortedValues].sort((a, b) => {
-                    return parseFloat( a.split( '$' )[1] ) - parseFloat( b.split( '$' )[1] )
+                    return parseFloat( a.split('$')[1] ) - parseFloat( b.split('$')[1] )
                 }) :
                 [...actualSortedValues].sort((a, b) => {
                     return parseFloat(b.split('$')[1]) - parseFloat(a.split('$')[1])
