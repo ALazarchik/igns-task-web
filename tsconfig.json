@@ -1,0 +1,22 @@
+{
+    "compilerOptions": {
+        //"baseUrl": ".",
+        "moduleResolution": "node",
+        "target": "es2021",
+        "module": "CommonJS",
+        "noImplicitAny": true,
+        "removeComments": true,
+        "preserveConstEnums": true,
+        "sourceMap": true,
+        "lib": [
+            "es2021",
+            "dom"
+        ],
+        "types": [
+            "node"
+        ]
+    },
+    "include": [
+        "*/*.ts"
+    ]
+}
