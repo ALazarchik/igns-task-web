@@ -1,4 +1,5 @@
 import { Locator, Page, expect } from "@playwright/test";
+import { SortConfig } from "../support/interfaces/interfaces";
 
 export class AllProductsPage {
     readonly page: Page;
@@ -27,23 +28,24 @@ export class AllProductsPage {
         await this.cartLink.click();
     }
 
-    async sortProductsBy(parameter: 'Name'|'Price', order: 'asc'|'desc'): Promise<void> {
-        let optionValue = 
-            parameter === 'Name' ? order === 'asc' ? 'az' : 'za' : order === 'asc' ? 'lohi' : 'hilo';
+    async sortProductsBy(sortConfig: SortConfig): Promise<void> {
+        let optionValue = sortConfig.parameter === 'Name' ? 
+            sortConfig.order === 'asc' ? 'az' : 'za' : 
+            sortConfig.order === 'asc' ? 'lohi' : 'hilo';
         await this.sortSelector.selectOption(optionValue);
     }
 
-    async checkProductsSortedBy(parameter: 'Name'|'Price', order: 'asc'|'desc'): Promise<void> {
+    async checkProductsSortedBy(sortConfig: SortConfig): Promise<void> {
         let actualSortedValues: string[];
         let expectedSortedValues: string[];
         
-        if (parameter === 'Name') {
+        if (sortConfig.parameter === 'Name') {
             actualSortedValues = await this.allProductsNames.allTextContents();
-            expectedSortedValues = order === 'asc' ?
+            expectedSortedValues = sortConfig.order === 'asc' ?
                 [...actualSortedValues].sort() : [...actualSortedValues].sort().reverse();
         } else {
             actualSortedValues = await this.allProductsPrices.allTextContents();
-            expectedSortedValues = order === 'asc' ?
+            expectedSortedValues = sortConfig.order === 'asc' ?
                 [...actualSortedValues].sort((a, b) => {
                     return parseFloat( a.split('$')[1] ) - parseFloat( b.split('$')[1] )
                 }) :

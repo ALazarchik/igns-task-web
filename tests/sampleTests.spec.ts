@@ -6,6 +6,7 @@ import { CartPage } from '../pageObjects/CartPage';
 import { CheckoutPage } from '../pageObjects/CheckoutPage';
 import { OverviewPage } from '../pageObjects/OverviewPage';
 import { ThankYouPage } from '../pageObjects/ThankYouPage';
+import { SortConfig } from '../support/interfaces/interfaces';
 
 test.describe('Positive tests with standard user', () => {
     test.beforeEach(async ({ page }) => {
@@ -38,16 +39,19 @@ test.describe('Positive tests with standard user', () => {
         await thankYouPage.checkWebsiteConfirmsOrder();
     });
     
-    [
+
+    const sortConfigs: SortConfig[] = [
         { parameter: 'Name', order: 'asc' },
         { parameter: 'Name', order: 'desc' },
         { parameter: 'Price', order: 'asc' },
         { parameter: 'Price', order: 'desc' },
-    ].forEach(config => {
+    ];
+
+    sortConfigs.forEach(config => {
         test(`[Validation-2, 3] should sort products by ${config.parameter} in ${config.order} order`, async ({ page }) => {        
             const allProductsPage = new AllProductsPage(page);
-            await allProductsPage.sortProductsBy(config.parameter, config.order);
-            await allProductsPage.checkProductsSortedBy(config.parameter, config.order);
+            await allProductsPage.sortProductsBy(config);
+            await allProductsPage.checkProductsSortedBy(config);
         });
     });
 });
